@@ -4,6 +4,7 @@ from src.ui.base_layout import style_background_dashboard,style_base_layout
 from src.components.footer import footer_dashboard
 from PIL import Image
 import numpy as np
+from src.pipelines.face_pipeline import predict_attendance
 
 def student_screen():
     style_background_dashboard()
@@ -22,6 +23,9 @@ def student_screen():
 
     photo_source=st.header("Lofin Using Face ID",text_alignment="center")
     if photo_source:
-        np.array(Image.open(photo_source))
+        img = np.array(Image.open(photo_source))
+        with st.spinner('AI is scanning'):
+            detected, all_ids, numfaces = predict_attendance(img)
+
     st.camera_input("position your face in center")
     footer_dashboard()
